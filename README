@@ -1,3 +1,12 @@
-MySQL-CVars
+[ANY] MySQL-CVars
 ---
-Coming soon...
+ - [MySQL-CVars on Git.TF](http://git.tf/Bara/MySQL-CVars)
+ - [MySQL-CVars on AlliedModders](http://git.tf/Bara/MySQL-CVars)
+
+### Requirement
+ * SourceMod 1.7.0+
+
+### Installation
+ * Upload backup file (data/mcv.cfg)
+ * Add config entry "mcv" in configs/databases.cfg
+ * Upload binary file (plugins/mcv.smx) or compile for yourself
