@@ -69,7 +69,14 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 public void OnPluginStart()
 {
 	BuildPath(Path_SM, g_sKVPath, sizeof(g_sKVPath), "data/mcv.cfg");
-	Database.Connect(OnConnect, "mcv");
+	
+	if (!SQL_CheckConfig("mcv"))
+		Database.Connect(OnConnect, "mcv");
+	else
+	{
+		MCV_Log(WARN, "(OnPluginStart) No database entry found for \"mcv\" in databases.cfg");
+		CallForward(g_hOnCVarsLoaded);
+	}
 }
 
 public void OnMapEnd()
