@@ -85,6 +85,7 @@ public void OnConnect(Database db, const char[] error, any data)
 	
 	if(db == null || strlen(error) > 0)
 	{
+		CallForward(g_hOnCVarsLoaded);
 		MCV_Log(WARN, "(OnConnect) Connection to database failed!: %s", error);
 	}
 	else
@@ -97,12 +98,14 @@ public void OnConnect(Database db, const char[] error, any data)
 		iDriver.GetIdentifier(sDriver, sizeof(sDriver));
 		if (!StrEqual(sDriver, "mysql", false))
 		{
+			CallForward(g_hOnCVarsLoaded);
 			MCV_Log(WARN, "(OnConnect) Only mysql support!");
 			return;
 		}
 		
 		if(!g_dDB.IsSameConnection(db))
 		{
+			CallForward(g_hOnCVarsLoaded);
 			MCV_Log(WARN, "(OnConnect) g_dDB has another connection as db");
 			return;
 		}
@@ -144,6 +147,7 @@ public void OnTableCreate(Database db, DBResultSet results, const char[] error, 
 {
 	if(db == null || strlen(error) > 0)
 	{
+		CallForward(g_hOnCVarsLoaded);
 		MCV_Log(WARN, "(OnTableCreate) Query failed!: %s", error);
 		return;
 	}
@@ -173,6 +177,7 @@ stock void FillCache()
 	}
 	else
 	{
+		CallForward(g_hOnCVarsLoaded);
 		MCV_Log(WARN, "(FillCache) Error! Database is invalid...");
 		return;
 	}
@@ -186,6 +191,7 @@ public void OnFillCache(Database db, DBResultSet results, const char[] error, an
 	
 	if(db == null || strlen(error) > 0)
 	{
+		CallForward(g_hOnCVarsLoaded);
 		MCV_Log(WARN, "(OnFillCache) Query failed!: %s", error);
 		return;
 	}
@@ -217,8 +223,7 @@ public void OnFillCache(Database db, DBResultSet results, const char[] error, an
 		}
 	}
 	
-	Call_StartForward(g_hOnCVarsLoaded);
-	Call_Finish();
+	CallForward(g_hOnCVarsLoaded);
 }
 
 public int Native_AddInt(Handle plugin, int numParams)
@@ -759,10 +764,15 @@ stock void MCV_Log(ELOG_LEVEL level = INFO, const char[] format, any ...)
 
 	char buffer[16];
 	FormatTime(buffer, sizeof(buffer), "%Y%m%d", GetTime());
-	Format(sFile, sizeof(sFile), "%s/%s-%s.log", sLevelPath, buffer);
+	Format(sFile, sizeof(sFile), "%s/%s.log", sLevelPath, buffer);
 
-	VFormat(sBuffer, sizeof(sBuffer), format, 6);
+	VFormat(sBuffer, sizeof(sBuffer), format, 3);
 
 	LogToFile(sFile, sBuffer);
 }
 
+stock void CallForward(Handle hForward)
+{
+	Call_StartForward(hForward);
+	Call_Finish();
+}
