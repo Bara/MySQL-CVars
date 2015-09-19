@@ -70,7 +70,7 @@ public void OnPluginStart()
 {
 	BuildPath(Path_SM, g_sKVPath, sizeof(g_sKVPath), "data/mcv.cfg");
 	
-	if (!SQL_CheckConfig("mcv"))
+	if (SQL_CheckConfig("mcv"))
 		Database.Connect(OnConnect, "mcv");
 	else
 	{
