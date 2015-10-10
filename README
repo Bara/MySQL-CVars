@@ -1,10 +1,27 @@
 [ANY] MySQL-CVars
 ---
  - [MySQL-CVars on Git.TF](http://git.tf/Bara/MySQL-CVars)
- - [MySQL-CVars on AlliedModders](http://git.tf/Bara/MySQL-CVars)
+ - [MySQL-CVars on AlliedModders](???)
+
+### Short description
+Control cvars over mysql.
+
+### Description
+I don't care about criticism (only for bugs/ideas) about this plugin.
+
+With this plugin you can control all cvars over a mysql table (webinterface isn't planned by me). If mysql down/unreachable -> all last known cvars are saved in a backup file.
+
+### Supported Games:
+ * All games with dbi support
 
 ### Requirement
  * SourceMod 1.7.0+
+
+### Changelog:
+ * [1.0.0] Initial release
+
+### ToDo:
+ * Nothing yet
 
 ### Installation
  * Upload backup file (data/mcv.cfg)
