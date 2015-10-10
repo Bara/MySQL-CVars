@@ -4,6 +4,9 @@
 #include <sourcemod>
 #include <mcv>
 
+#define PLUGIN_VERSION "1.0.0"
+#define PLUGIN_DESCRIPTION "Control cvars over mysql"
+
 enum CVars_Cache
 {
 	String:cPluginName[MCV_PLUGIN_NAME],
@@ -45,8 +48,8 @@ public Plugin myinfo =
 {
 	name = "MySQL CVars",
 	author = "Bara",
-	description = "Control cvars over mysql",
-	version = "1.0.0",
+	description = PLUGIN_DESCRIPTION,
+	version = PLUGIN_VERSION,
 	url = "www.bara.in"
 };
 
@@ -77,6 +80,8 @@ public void OnPluginStart()
 		MCV_Log(WARN, "(OnPluginStart) No database entry found for \"mcv\" in databases.cfg");
 		CallForward(g_hOnCVarsLoaded);
 	}
+	
+	CreateConVar("mysql_cvars_version", PLUGIN_VERSION, PLUGIN_DESCRIPTION, FCVAR_NOTIFY | FCVAR_DONTRECORD);
 }
 
 public void OnMapEnd()
