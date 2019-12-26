@@ -8,7 +8,7 @@
 #define PLUGIN_VERSION "2.0.0"
 #define PLUGIN_DESCRIPTION "With mVars you can control your convars over mysql, but as a side note: every plugin need an update."
 
-enum struct Var
+enum struct mVar
 {
     char PluginName[64];
     char Name[64];
@@ -216,26 +216,26 @@ public void OnFillCache(Database db, DBResultSet results, const char[] error, an
         if(g_aVars != null)
             g_aVars.Clear();
         
-        g_aVars = new ArrayList(sizeof(Var));
+        g_aVars = new ArrayList(sizeof(mVar));
         
         while(results.FetchRow())
         {
-            Var vVar;
+            mVar mvar;
     
-            results.FetchString(0, vVar.PluginName, sizeof(vVar.PluginName));
-            results.FetchString(1, vVar.Name, sizeof(vVar.Name));
-            results.FetchString(2, vVar.Value, sizeof(vVar.Value));
-            results.FetchString(3, vVar.Description, sizeof(vVar.Description));
-            results.FetchString(4, vVar.Type, sizeof(vVar.Type));
+            results.FetchString(0, mvar.PluginName, sizeof(mvar.PluginName));
+            results.FetchString(1, mvar.Name, sizeof(mvar.Name));
+            results.FetchString(2, mvar.Value, sizeof(mvar.Value));
+            results.FetchString(3, mvar.Description, sizeof(mvar.Description));
+            results.FetchString(4, mvar.Type, sizeof(mvar.Type));
             
             if (g_cDebug.BoolValue)
             {
-                PrintToServer("[OnFillCache] cluginName: %s - Name: %s - Value: %s - Description: %s - Type: %s", vVar.PluginName, vVar.Name, vVar.Value, vVar.Description, vVar.Type);
+                PrintToServer("[OnFillCache] cluginName: %s - Name: %s - Value: %s - Description: %s - Type: %s", mvar.PluginName, mvar.Name, mvar.Value, mvar.Description, mvar.Type);
             }
             
-            g_aVars.PushArray(vVar);
+            g_aVars.PushArray(mvar);
             
-            UpdateBackupFile(vVar.PluginName, vVar.Name, vVar.Value, vVar.Description, vVar.Type);
+            UpdateBackupFile(mvar.PluginName, mvar.Name, mvar.Value, mvar.Description, mvar.Type);
         }
     }
     
@@ -274,24 +274,24 @@ public int Native_AddInt(Handle plugin, int numParams)
     {
         for (int i = 0; i < g_aVars.Length; i++)
         {
-            Var vVar;
-            g_aVars.GetArray(i, vVar);
+            mVar mvar;
+            g_aVars.GetArray(i, mvar);
             
             if (g_cDebug.BoolValue)
             {
-                PrintToServer("(Native_AddInt) PluginName: %s - Name: %s - Value: %s - Description: %s - Type: %s", vVar.PluginName, vVar.Name, vVar.Value, vVar.Description, vVar.Type);
+                PrintToServer("(Native_AddInt) PluginName: %s - Name: %s - Value: %s - Description: %s - Type: %s", mvar.PluginName, mvar.Name, mvar.Value, mvar.Description, mvar.Type);
             }
     
-            if (StrEqual(vVar.PluginName, sPlName, false) && StrEqual(vVar.Name, sCName, false))
+            if (StrEqual(mvar.PluginName, sPlName, false) && StrEqual(mvar.Name, sCName, false))
             {
                 if (g_cDebug.BoolValue)
                 {
-                    PrintToServer("(Native_AddInt) Result for \"%s\" found! Value: %d", sCName, StringToInt(vVar.Value));
+                    PrintToServer("(Native_AddInt) Result for \"%s\" found! Value: %d", sCName, StringToInt(mvar.Value));
                 }
                 
                 bFound = true;
                 
-                return view_as<int>(StringToInt(vVar.Value));
+                return view_as<int>(StringToInt(mvar.Value));
             }
         }
     }
@@ -315,20 +315,20 @@ public int Native_AddInt(Handle plugin, int numParams)
             
             g_dDatabase.Query(OnCvarAdd, sQuery, _, DBPrio_High);
             
-            Var vVar;
+            mVar mvar;
             
-            Format(vVar.PluginName, sizeof(vVar.PluginName), "%s", sPlName);
-            Format(vVar.Name, sizeof(vVar.Name), "%s", sCName);
-            Format(vVar.Value, sizeof(vVar.Value), "%d", iCValue);
-            Format(vVar.Description, sizeof(vVar.Description), "%s", sCDescription);
-            Format(vVar.Type, sizeof(vVar.Type), "int");
+            Format(mvar.PluginName, sizeof(mvar.PluginName), "%s", sPlName);
+            Format(mvar.Name, sizeof(mvar.Name), "%s", sCName);
+            Format(mvar.Value, sizeof(mvar.Value), "%d", iCValue);
+            Format(mvar.Description, sizeof(mvar.Description), "%s", sCDescription);
+            Format(mvar.Type, sizeof(mvar.Type), "int");
             
             if (g_cDebug.BoolValue)
             {
-                PrintToServer("[Native_AddInt] PluginName: %s - Name: %s - Value: %s - Description: %s - Type: %s", vVar.PluginName, vVar.Name, vVar.Value, vVar.Description, vVar.Type);
+                PrintToServer("[Native_AddInt] PluginName: %s - Name: %s - Value: %s - Description: %s - Type: %s", mvar.PluginName, mvar.Name, mvar.Value, mvar.Description, mvar.Type);
             }
             
-            g_aVars.PushArray(vVar);
+            g_aVars.PushArray(mvar);
             UpdateBackupFile(sPlName, sCName, sCValue, sCDescription, "int");
         }
         else
@@ -379,24 +379,24 @@ public int Native_AddBool(Handle plugin, int numParams)
     {
         for (int i = 0; i < g_aVars.Length; i++)
         {
-            Var vVar;
-            g_aVars.GetArray(i, vVar);
+            mVar mvar;
+            g_aVars.GetArray(i, mvar);
             
             if (g_cDebug.BoolValue)
             {
-                PrintToServer("(Native_AddBool) PluginName: %s - Name: %s - Value: %s - Description: %s - Type: %s", vVar.PluginName, vVar.Name, vVar.Value, vVar.Description, vVar.Type);
+                PrintToServer("(Native_AddBool) PluginName: %s - Name: %s - Value: %s - Description: %s - Type: %s", mvar.PluginName, mvar.Name, mvar.Value, mvar.Description, mvar.Type);
             }
     
-            if (StrEqual(vVar.PluginName, sPlName, false) && StrEqual(vVar.Name, sCName, false))
+            if (StrEqual(mvar.PluginName, sPlName, false) && StrEqual(mvar.Name, sCName, false))
             {
                 if (g_cDebug.BoolValue)
                 {
-                    PrintToServer("(Native_AddBool) Result for \"%s\" found! Value: %d", sCName, StringToInt(vVar.Value));
+                    PrintToServer("(Native_AddBool) Result for \"%s\" found! Value: %d", sCName, StringToInt(mvar.Value));
                 }
                 
                 bFound = true;
                 
-                return view_as<bool>(StringToInt(vVar.Value));
+                return view_as<bool>(StringToInt(mvar.Value));
             }
         }
     }
@@ -420,20 +420,20 @@ public int Native_AddBool(Handle plugin, int numParams)
             
             g_dDatabase.Query(OnCvarAdd, sQuery, _, DBPrio_High);
             
-            Var vVar;
+            mVar mvar;
             
-            Format(vVar.PluginName, sizeof(vVar.PluginName), "%s", sPlName);
-            Format(vVar.Name, sizeof(vVar.Name), "%s", sCName);
-            Format(vVar.Value, sizeof(vVar.Value), "%d", bCValue);
-            Format(vVar.Description, sizeof(vVar.Description), "%s", sCDescription);
-            Format(vVar.Type, sizeof(vVar.Type), "bool");
+            Format(mvar.PluginName, sizeof(mvar.PluginName), "%s", sPlName);
+            Format(mvar.Name, sizeof(mvar.Name), "%s", sCName);
+            Format(mvar.Value, sizeof(mvar.Value), "%d", bCValue);
+            Format(mvar.Description, sizeof(mvar.Description), "%s", sCDescription);
+            Format(mvar.Type, sizeof(mvar.Type), "bool");
             
             if (g_cDebug.BoolValue)
             {
-                PrintToServer("[Native_AddBool] PluginName: %s - Name: %s - Value: %s - Description: %s - Type: %s", vVar.PluginName, vVar.Name, vVar.Value, vVar.Description, vVar.Type);
+                PrintToServer("[Native_AddBool] PluginName: %s - Name: %s - Value: %s - Description: %s - Type: %s", mvar.PluginName, mvar.Name, mvar.Value, mvar.Description, mvar.Type);
             }
             
-            g_aVars.PushArray(vVar);
+            g_aVars.PushArray(mvar);
             UpdateBackupFile(sPlName, sCName, sCValue, sCDescription, "bool");
         }
         else
@@ -483,24 +483,24 @@ public int Native_AddFloat(Handle plugin, int numParams)
     {
         for (int i = 0; i < g_aVars.Length; i++)
         {
-            Var vVar;
-            g_aVars.GetArray(i, vVar);
+            mVar mvar;
+            g_aVars.GetArray(i, mvar);
             
             if (g_cDebug.BoolValue)
             {
-                PrintToServer("(Native_AddFloat) PluginName: %s - Name: %s - Value: %s - Description: %s - Type: %s", vVar.PluginName, vVar.Name, vVar.Value, vVar.Description, vVar.Type);
+                PrintToServer("(Native_AddFloat) PluginName: %s - Name: %s - Value: %s - Description: %s - Type: %s", mvar.PluginName, mvar.Name, mvar.Value, mvar.Description, mvar.Type);
             }
     
-            if (StrEqual(vVar.PluginName, sPlName, false) && StrEqual(vVar.Name, sCName, false))
+            if (StrEqual(mvar.PluginName, sPlName, false) && StrEqual(mvar.Name, sCName, false))
             {
                 if (g_cDebug.BoolValue)
                 {
-                    PrintToServer("(Native_AddFloat) Result for \"%s\" found! Value: %f", sCName, StringToFloat(vVar.Value));
+                    PrintToServer("(Native_AddFloat) Result for \"%s\" found! Value: %f", sCName, StringToFloat(mvar.Value));
                 }
                 
                 bFound = true;
                 
-                return view_as<int>(StringToFloat(vVar.Value));
+                return view_as<int>(StringToFloat(mvar.Value));
             }
         }
     }
@@ -524,20 +524,20 @@ public int Native_AddFloat(Handle plugin, int numParams)
             
             g_dDatabase.Query(OnCvarAdd, sQuery, _, DBPrio_High);
             
-            Var vVar;
+            mVar mvar;
             
-            Format(vVar.PluginName, sizeof(vVar.PluginName), "%s", sPlName);
-            Format(vVar.Name, sizeof(vVar.Name), "%s", sCName);
-            Format(vVar.Value, sizeof(vVar.Value), "%f", fCValue);
-            Format(vVar.Description, sizeof(vVar.Description), "%s", sCDescription);
-            Format(vVar.Type, sizeof(vVar.Type), "float");
+            Format(mvar.PluginName, sizeof(mvar.PluginName), "%s", sPlName);
+            Format(mvar.Name, sizeof(mvar.Name), "%s", sCName);
+            Format(mvar.Value, sizeof(mvar.Value), "%f", fCValue);
+            Format(mvar.Description, sizeof(mvar.Description), "%s", sCDescription);
+            Format(mvar.Type, sizeof(mvar.Type), "float");
             
             if (g_cDebug.BoolValue)
             {
-                PrintToServer("[Native_AddFloat] PluginName: %s - Name: %s - Value: %s - Description: %s - Type: %s", vVar.PluginName, vVar.Name, vVar.Value, vVar.Description, vVar.Type);
+                PrintToServer("[Native_AddFloat] PluginName: %s - Name: %s - Value: %s - Description: %s - Type: %s", mvar.PluginName, mvar.Name, mvar.Value, mvar.Description, mvar.Type);
             }
             
-            g_aVars.PushArray(vVar);
+            g_aVars.PushArray(mvar);
             UpdateBackupFile(sPlName, sCName, sCValue, sCDescription, "float");
         }
         else
@@ -585,24 +585,24 @@ public int Native_AddString(Handle plugin, int numParams)
     {
         for (int i = 0; i < g_aVars.Length; i++)
         {
-            Var vVar;
-            g_aVars.GetArray(i, vVar);
+            mVar mvar;
+            g_aVars.GetArray(i, mvar);
             
             if (g_cDebug.BoolValue)
             {
-                PrintToServer("(Native_AddString) PluginName: %s - Name: %s - Value: %s - Description: %s - Type: %s", vVar.PluginName, vVar.Name, vVar.Value, vVar.Description, vVar.Type);
+                PrintToServer("(Native_AddString) PluginName: %s - Name: %s - Value: %s - Description: %s - Type: %s", mvar.PluginName, mvar.Name, mvar.Value, mvar.Description, mvar.Type);
             }
     
-            if (StrEqual(vVar.PluginName, sPlName, false) && StrEqual(vVar.Name, sCName, false))
+            if (StrEqual(mvar.PluginName, sPlName, false) && StrEqual(mvar.Name, sCName, false))
             {
                 if (g_cDebug.BoolValue)
                 {
-                    PrintToServer("(Native_AddString) Result for \"%s\" found! Value: %s", sCName, vVar.Value);
+                    PrintToServer("(Native_AddString) Result for \"%s\" found! Value: %s", sCName, mvar.Value);
                 }
                 
                 bFound = true;
                 
-                return SetNativeString(4, vVar.Value, GetNativeCell(5), false);
+                return SetNativeString(4, mvar.Value, GetNativeCell(5), false);
             }
         }
     }
@@ -629,20 +629,20 @@ public int Native_AddString(Handle plugin, int numParams)
             
             g_dDatabase.Query(OnCvarAdd, sQuery, _, DBPrio_High);
             
-            Var vVar;
+            mVar mvar;
             
-            Format(vVar.PluginName, sizeof(vVar.PluginName), "%s", sPlName);
-            Format(vVar.Name, sizeof(vVar.Name), "%s", sCName);
-            Format(vVar.Value, sizeof(vVar.Value), "%s", sCValue);
-            Format(vVar.Description, sizeof(vVar.Description), "%s", sCDescription);
-            Format(vVar.Type, sizeof(vVar.Type), "string");
+            Format(mvar.PluginName, sizeof(mvar.PluginName), "%s", sPlName);
+            Format(mvar.Name, sizeof(mvar.Name), "%s", sCName);
+            Format(mvar.Value, sizeof(mvar.Value), "%s", sCValue);
+            Format(mvar.Description, sizeof(mvar.Description), "%s", sCDescription);
+            Format(mvar.Type, sizeof(mvar.Type), "string");
             
             if (g_cDebug.BoolValue)
             {
-                PrintToServer("[Native_AddString] PluginName: %s - Name: %s - Value: %s - Description: %s - Type: %s", vVar.PluginName, vVar.Name, vVar.Value, vVar.Description, vVar.Type);
+                PrintToServer("[Native_AddString] PluginName: %s - Name: %s - Value: %s - Description: %s - Type: %s", mvar.PluginName, mvar.Name, mvar.Value, mvar.Description, mvar.Type);
             }
             
-            g_aVars.PushArray(vVar);
+            g_aVars.PushArray(mvar);
             UpdateBackupFile(sPlName, sCName, sCValue, sCDescription, "string");
         }
         else
