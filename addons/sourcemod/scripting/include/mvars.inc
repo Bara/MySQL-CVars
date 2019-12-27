@@ -5,6 +5,7 @@
 
 forward void MVars_OnVarsLoaded();
 
+native bool MVars_IsReady();
 native int MVars_AddInt(const char[] name, int value, const char[] description);
 native bool MVars_AddBool(const char[] name, bool value, const char[] description);
 native float MVars_AddFloat(const char[] name, float value, const char[] description);
@@ -24,6 +25,7 @@ public SharedPlugin __pl_mvars =
 #if !defined REQUIRE_PLUGIN
 public __pl_mvars_SetNTVOptional()
 {
+    MarkNativeAsOptional("MVars_IsReady")
     MarkNativeAsOptional("MVars_AddInt");
     MarkNativeAsOptional("MVars_AddBool");
     MarkNativeAsOptional("MVars_AddFloat");

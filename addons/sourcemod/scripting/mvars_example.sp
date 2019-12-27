@@ -3,10 +3,23 @@
 #include <sourcemod>
 #include <mvars>
 
+public void OnPluginStart()
+{
+    if (MVars_IsReady())
+    {
+        InitVars();
+    }
+}
+
 public void MVars_OnVarsLoaded()
 {
     LogMessage("MVars_OnVarsLoaded called!");
     
+    InitVars();
+}
+
+void InitVars()
+{
     int g_iTest1 = MVars_AddInt("int_test1", 46, "Description Test 1");
     int g_iTest2 = MVars_AddInt("int_test2", 256, "Description Test 2");
     int g_iTest3 = MVars_AddInt("int_test3", 21364, "Description Test 3");
@@ -32,23 +45,23 @@ public void MVars_OnVarsLoaded()
     MVars_AddString("string_test3", "test 3", "Description Test 3", g_sTest3, sizeof(g_sTest3));
     MVars_AddString("string_test4", "test 4", "Description Test 4", g_sTest4, sizeof(g_sTest4));
     
-    LogMessage("(MVars_OnVarsLoaded) Int Test1: %d", g_iTest1);
-    LogMessage("(MVars_OnVarsLoaded) Int Test2: %d", g_iTest2);
-    LogMessage("(MVars_OnVarsLoaded) Int Test3: %d", g_iTest3);
-    LogMessage("(MVars_OnVarsLoaded) Int Test4: %d", g_iTest4);
+    LogMessage("(InitVars) Int Test1: %d", g_iTest1);
+    LogMessage("(InitVars) Int Test2: %d", g_iTest2);
+    LogMessage("(InitVars) Int Test3: %d", g_iTest3);
+    LogMessage("(InitVars) Int Test4: %d", g_iTest4);
     
-    LogMessage("(MVars_OnVarsLoaded) Bool Test1: %d", g_bTest1);
-    LogMessage("(MVars_OnVarsLoaded) Bool Test2: %d", g_bTest2);
-    LogMessage("(MVars_OnVarsLoaded) Bool Test3: %d", g_bTest3);
-    LogMessage("(MVars_OnVarsLoaded) Bool Test4: %d", g_bTest4);
+    LogMessage("(InitVars) Bool Test1: %d", g_bTest1);
+    LogMessage("(InitVars) Bool Test2: %d", g_bTest2);
+    LogMessage("(InitVars) Bool Test3: %d", g_bTest3);
+    LogMessage("(InitVars) Bool Test4: %d", g_bTest4);
     
-    LogMessage("(MVars_OnVarsLoaded) Float Test1: %f", g_fTest1);
-    LogMessage("(MVars_OnVarsLoaded) Float Test2: %f", g_fTest2);
-    LogMessage("(MVars_OnVarsLoaded) Float Test3: %f", g_fTest3);
-    LogMessage("(MVars_OnVarsLoaded) Float Test4: %f", g_fTest4);
+    LogMessage("(InitVars) Float Test1: %f", g_fTest1);
+    LogMessage("(InitVars) Float Test2: %f", g_fTest2);
+    LogMessage("(InitVars) Float Test3: %f", g_fTest3);
+    LogMessage("(InitVars) Float Test4: %f", g_fTest4);
     
-    LogMessage("(MVars_OnVarsLoaded) String Test1: %s", g_sTest1);
-    LogMessage("(MVars_OnVarsLoaded) String Test2: %s", g_sTest2);
-    LogMessage("(MVars_OnVarsLoaded) String Test3: %s", g_sTest3);
-    LogMessage("(MVars_OnVarsLoaded) String Test4: %s", g_sTest4);
+    LogMessage("(InitVars) String Test1: %s", g_sTest1);
+    LogMessage("(InitVars) String Test2: %s", g_sTest2);
+    LogMessage("(InitVars) String Test3: %s", g_sTest3);
+    LogMessage("(InitVars) String Test4: %s", g_sTest4);
 }
