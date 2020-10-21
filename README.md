@@ -2,7 +2,7 @@
 
 | Action Status | Discord |
 |:-------------:|:-------:|
-| [![Action Status](https://github.com/Bara/mVars/workflows/Compile%20with%20SourceMod/badge.svg)](https://github.com/Bara/mVars/actions) | [![Discord](https://img.shields.io/discord/388685157286019072.svg)](https://discord.gg/eCsqjcD) |
+| [![Action Status](https://github.com/Bara/mVars/workflows/Compile%20with%20SourceMod/badge.svg)](https://github.com/Bara/mVars/actions) | [![Discord](https://img.shields.io/discord/388685157286019072.svg)](https://discord.gg/NUMQfgs) |
 
 With mVars you can control your convars over mysql, but as a side note: every plugin need an update. And don't worry, this plugin has a fallback feature if your mysql instance should be down for some reasons.
 
